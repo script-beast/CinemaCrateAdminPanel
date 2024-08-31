@@ -1,0 +1,29 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  width: var(--sideNav-width);
+}
+
+.sidenav {
+  display: none;
+  flex-direction: column;
+  height: 100%;
+  left: 0;
+  max-width: 100%;
+  position: fixed;
+  scrollbar-width: none;
+  top: 0;
+  width: var(--sideNav-width);
+}
+
+@media screen and (min-width: 1200px) {
+  .sidenav {
+    display: flex;
+  }
+}
