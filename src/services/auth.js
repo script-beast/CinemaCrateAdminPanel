@@ -1,11 +1,20 @@
+import { api } from "../utils";
+
 const loginService = async (formData) => {
-  return new Promise((resolve, reject) => {
-    if (formData.email === "admin@gmail.com" && formData.password === "1234") {
-      resolve(true);
-    } else {
-      reject(false);
-    }
+  try {
+    const json = await api.post("login", formData);
+    localStorage.setItem("token", json.data.result.token);
+    localStorage.setItem("refreshToken", json.data.result.refreshToken);
+    return json.msg;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const logoutService = async () => {
+  return new Promise((resolve) => {
+    resolve(true);
   });
 };
 
-export { loginService };
+export { loginService, logoutService };

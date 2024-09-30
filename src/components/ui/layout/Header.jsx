@@ -1,7 +1,16 @@
 import React from "react";
-import { Avatar, Badge, Box, IconButton, Stack, Tooltip } from "@mui/material";
+import {
+  Badge,
+  Box,
+  IconButton,
+  Stack,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 
-import { FaRegCircleUser } from "react-icons/fa6";
+import { LuLogOut } from "react-icons/lu";
+import { IoNotifications } from "react-icons/io5";
+import { RiMenuFold3Fill } from "react-icons/ri";
 
 import MobileSidebar from "./MobileSidebar";
 
@@ -15,7 +24,7 @@ const Header = () => {
         className="header"
         borderBottom={1}
         borderColor={"divider"}
-        bgcolor={"success.main"}
+        bgcolor={"#fff"}
       >
         <Stack
           direction="row"
@@ -29,48 +38,30 @@ const Header = () => {
         >
           <Stack sx={{ alignItems: "center" }} direction="row" spacing={2}>
             <IconButton
-              onClick={() => {
-                setOpenNav(true);
-              }}
+              onClick={() => setOpenNav(true)}
               sx={{ display: { lg: "none" } }}
             >
-              <FaRegCircleUser />
+              <RiMenuFold3Fill />
             </IconButton>
-            <Tooltip title="Search">
-              <IconButton>
-                <FaRegCircleUser />
-              </IconButton>
-            </Tooltip>
+            <Typography variant="h6">Dashboard</Typography>
           </Stack>
           <Stack sx={{ alignItems: "center" }} direction="row" spacing={2}>
-            <Tooltip title="Contacts">
-              <IconButton>
-                <FaRegCircleUser />
-              </IconButton>
-            </Tooltip>
             <Tooltip title="Notifications">
-              <Badge badgeContent={4} color="success" variant="dot">
+              <Badge badgeContent={4} color="warning" variant="dot">
                 <IconButton>
-                  <FaRegCircleUser />
+                  <IoNotifications />
                 </IconButton>
               </Badge>
             </Tooltip>
-            <Avatar
-              // onClick={userPopover.handleOpen}
-              // ref={userPopover.anchorRef}
-              src="/assets/avatar.png"
-              sx={{ cursor: "pointer" }}
-            />
+            <Tooltip title="Logout">
+              <IconButton>
+                <LuLogOut />
+              </IconButton>
+            </Tooltip>
           </Stack>
         </Stack>
       </Box>
-      {/* <UserPopover anchorEl={userPopover.anchorRef.current} onClose={userPopover.handleClose} open={userPopover.open} /> */}
-      <MobileSidebar
-        onClose={() => {
-          setOpenNav(false);
-        }}
-        open={openNav}
-      />
+      <MobileSidebar onClose={() => setOpenNav(false)} open={openNav} />
     </React.Fragment>
   );
 };

@@ -4,15 +4,6 @@ import { Header, Sidebar, Footer } from "../components/ui";
 import { Outlet } from "react-router-dom";
 
 const Page = () => {
-  const [open, setOpen] = React.useState(false);
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-
   return (
     <Box
       sx={{
@@ -22,7 +13,7 @@ const Page = () => {
         minHeight: "100%",
       }}
     >
-      <Sidebar open={open} handleDrawerClose={handleDrawerClose} />
+      <Sidebar />
       <Box
         sx={{
           display: "flex",
@@ -31,7 +22,7 @@ const Page = () => {
           pl: { lg: "280px" },
         }}
       >
-        <Header open={open} handleDrawerOpen={handleDrawerOpen} />
+        <Header />
         <Container variant="main" maxWidth="lg" sx={{ minHeight: "90vh" }}>
           <Outlet />
         </Container>

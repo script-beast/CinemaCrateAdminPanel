@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 import { Page } from "../layouts";
 
 const ProtectedRoutes = () => {
-  const isAuthenticated = true;
+  const isAuthenticated = localStorage.getItem("token") ? true : false;
   return isAuthenticated ? <Page /> : <Navigate to="/login" />;
 };
 

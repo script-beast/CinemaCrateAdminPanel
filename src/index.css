@@ -1,7 +1,9 @@
 :root {
   --sideNav-width: 280px;
+  --border-color: #e5eaef;
 }
 
 a {
   text-decoration: none;
+  color: inherit;
 }

@@ -27,3 +27,19 @@
     display: flex;
   }
 }
+
+.uppertabs {
+  border: 1px solid var(--border-color);
+  padding: 10px 20px;
+  border-radius: 15px;
+}
+
+.uppertabs a {
+  padding: 5px 10px;
+  border-radius: 7px;
+}
+
+.uppertabs a:hover,
+.uppertabs a.active {
+  background-color: var(--border-color);
+}

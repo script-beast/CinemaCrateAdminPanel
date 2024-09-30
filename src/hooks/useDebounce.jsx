@@ -1,31 +1,13 @@
-// useDebounce.jsx
 import React from "react";
 
-const useDebounce = (func = () => {}, dependencies = [], delay = 500) => {
-  const callback = React.useCallback(func, dependencies);
-  const timeoutRef = React.useRef(null);
-
-  const debounce = React.useCallback(
-    (...args) => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-      timeoutRef.current = setTimeout(() => {
-        callback(...args);
-      }, delay);
-    },
-    [callback, delay]
-  );
+const useDebounce = (effect, dependencies, delay) => {
+  const callback = React.useCallback(effect, dependencies);
 
   React.useEffect(() => {
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, []);
+    const timeout = setTimeout(callback, delay);
 
-  return debounce;
+    return () => clearTimeout(timeout);
+  }, [callback, delay]);
 };
 
 export default useDebounce;

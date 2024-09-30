@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { MyPasswordField, MyTextField } from "../components/common";
 import { loginService } from "../services";
-import { myToast } from "../helper";
+import { myToast } from "../utils";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -16,17 +16,17 @@ const Login = () => {
   };
 
   const resetCredentials = () => {
-    setFormData({ email: "admin@gmail.com", password: "1234" });
+    setFormData({ email: "admin@gmail.com", password: "Admin@9090" });
   };
 
   const handleSubmit = () => {
     loginService(formDta)
       .then((res) => {
-        myToast.success("Login Success");
+        myToast.success(res);
         navigate("/dashboard");
       })
       .catch((err) => {
-        myToast.error("Login Failed");
+        myToast.error(err);
       });
   };
 
@@ -63,7 +63,6 @@ const Login = () => {
               onChange={handleChange}
             />
           </Grid>
-
           <Grid item sm={12}>
             <Stack direction="row" spacing={2}>
               <Button variant="secondary" onClick={resetCredentials}>

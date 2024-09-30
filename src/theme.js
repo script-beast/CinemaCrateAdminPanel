@@ -112,6 +112,10 @@ const typography = {
   },
 };
 
+const typographyComponent = {
+  MuiTypography: { styleOverrides: { root: { textTransform: "capitalize" } } },
+};
+
 const cardComponent = {
   MuiCard: {
     variants: [
@@ -161,25 +165,22 @@ const cssBaseline = {
 
 const inputComponent = {
   MuiInputBase: {
-    styleOverrides: {
-      root: {
-        backgroundColor: palette.cardBackground.main,
-      },
-    },
+    styleOverrides: { root: { backgroundColor: palette.cardBackground.main } },
   },
   MuiOutlinedInput: {
     styleOverrides: {
-      root: {
-        borderRadius: "7px",
-      },
-      input: {
-        padding: "10px",
-      },
+      root: { borderRadius: "7px" },
+      input: { padding: "10px" },
     },
   },
 };
 
-const buttonComponent = {};
+const buttonComponent = {
+  MuiButton: {
+    styleOverrides: { root: { textTransform: "none" } },
+    variants: [],
+  },
+};
 
 const drawerComponent = {
   MuiDrawer: {
@@ -284,10 +285,38 @@ const containerComponent = {
   },
 };
 
+const dailogComponent = {
+  MuiDialog: {
+    styleOverrides: {
+      paper: {
+        padding: "10px 20px",
+        minWidth: "400px",
+        borderRadius: "10px",
+      },
+    },
+    variants: [
+      {
+        props: { variant: "viewDetails" },
+        style: {
+          "& .MuiDialog-paper": {
+            padding: "20px",
+            maxWidth: "min(90vw, 700px)",
+          },
+        },
+      },
+      {
+        props: { variant: "confirmBox" },
+        style: {},
+      },
+    ],
+  },
+};
+
 const themeSettings = {
   palette,
   typography,
   components: {
+    ...typographyComponent,
     ...cardComponent,
     ...cssBaseline,
     ...inputComponent,
@@ -296,6 +325,7 @@ const themeSettings = {
     ...listComponent,
     ...dataGridComponent,
     ...containerComponent,
+    ...dailogComponent,
   },
 };
 

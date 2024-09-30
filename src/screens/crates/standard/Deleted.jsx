@@ -1,20 +1,17 @@
 import React from "react";
-import { Box, Button, IconButton, Stack } from "@mui/material";
-import { MdDeleteForever } from "react-icons/md";
-import { AiFillEdit } from "react-icons/ai";
+import { Box, Stack } from "@mui/material";
 
 import { MyDataGridServer, MyDataSearch } from "../../../components/templates";
 import { ViewSanCrates } from "../../../components/ui";
 import {
-  allActiveStandardCrates,
+  allDeletedStandardCrates,
   singleStandardCrate,
 } from "../../../services";
 import { useDebounce } from "../../../hooks";
 import { myToast } from "../../../utils";
 import { showSmallLoader, hideSmallLoader } from "../../../helper";
-import { useQuery } from "@tanstack/react-query";
 
-const Active = () => {
+const Deleted = () => {
   const [searchText, setSearchText] = React.useState(null);
   const [data, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
@@ -69,11 +66,26 @@ const Active = () => {
     searchSignal.current = new AbortController();
     setLoading(true);
 
-    const {data } = useQuery({
-      queryKey: ["allActiveStandardCrates"],
-      queryFn: () => allActiveStandardCrates(),
-      
-    });
+    allDeletedStandardCrates(
+      {
+        page: pagination.page + 1,
+        limit: pagination.pageSize,
+        search: searchText,
+      },
+      { signal: searchSignal.current.signal }
+    )
+      .then((res) => {
+        setData(res.result);
+        setTotal(res.total);
+      })
+      .catch((err) => {
+        console.log(err);
+        if (!err) return;
+        myToast.basic(err, "error");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   React.useEffect(() => {
@@ -111,19 +123,14 @@ const Active = () => {
       ),
     },
     {
-      field: "action",
-      headerName: "Action",
+      field: "summary",
+      headerName: "Summary",
       minWidth: 150,
       flex: 1,
       renderCell: (params) => (
-        <>
-          <IconButton variant="text" color="primary" size="small">
-            <AiFillEdit />
-          </IconButton>
-          <IconButton variant="text" color="error" size="small">
-            <MdDeleteForever />
-          </IconButton>
-        </>
+        <Button variant="text" size="small">
+          View Summary
+        </Button>
       ),
     },
   ];
@@ -133,9 +140,9 @@ const Active = () => {
       <Stack spacing={2} mt={2}>
         <Stack direction={"row"}>
           <MyDataSearch
-            value={searchText ?? ""}
-            onChange={(e) => setSearchText(e.target.value)}
-            placeholder="Search for crates"
+            searchText={searchText ?? ""}
+            setSearchText={(e) => setSearchText(e.target.value)}
+            placeholder={"Search for crates"}
           />
         </Stack>
         <Box sx={{ height: 400, width: "100%" }}>
@@ -160,4 +167,4 @@ const Active = () => {
   );
 };
 
-export default Active;
+export default Deleted;

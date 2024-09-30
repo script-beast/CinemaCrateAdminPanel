@@ -2,7 +2,7 @@ import React from "react";
 import { TextField, InputAdornment, useTheme } from "@mui/material";
 import { RiMenuSearchLine } from "react-icons/ri";
 
-const MyDataSearch = () => {
+const MyDataSearch = ({ ...props }) => {
   const theme = useTheme();
 
   return (
@@ -16,6 +16,7 @@ const MyDataSearch = () => {
         ),
       }}
       variant="outlined"
+      {...props}
     />
   );
 };

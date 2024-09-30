@@ -15,8 +15,10 @@ const MyDataGridServer = ({ ...props }) => {
       }}
       paginationMode="server"
       initialState={{
-        pagination: { paginationModel: { pageSize: 25, page: 1 } },
+        pagination: { paginationModel: { pageSize: 1, page: 1 } },
       }}
+      pageSizeOptions={[10, 25, 50]}
+      disableRowSelectionOnClick
       {...props}
     />
   );

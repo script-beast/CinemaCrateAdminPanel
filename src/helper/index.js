@@ -1,3 +1,3 @@
-import * as myToast from "./showToast";
+import { showSmallLoader, hideSmallLoader } from "./loaders";
 
-export { myToast };
+export { showSmallLoader, hideSmallLoader };

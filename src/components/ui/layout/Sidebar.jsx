@@ -21,12 +21,8 @@ const SideNav = () => {
       className="sidenav"
     >
       <Stack sx={{ p: 3 }}>
-        <Typography color="var(--mui-palette-neutral-400)" variant="body2">
-          Cinema Crate
-        </Typography>
-        <Typography color="inherit" variant="subtitle1">
-          Admin Panel
-        </Typography>
+        <Typography variant="body2">Cinema Crate</Typography>
+        <Typography variant="subtitle1">Admin Panel</Typography>
       </Stack>
       <Divider />
       <Stack

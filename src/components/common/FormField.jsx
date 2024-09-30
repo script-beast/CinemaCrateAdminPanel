@@ -11,6 +11,9 @@ import {
   OutlinedInput,
 } from "@mui/material";
 
+import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
 import { PiEye, PiEyeClosed } from "react-icons/pi";
 
 const MyTextField = ({ title, ...props }) => {
@@ -86,4 +89,17 @@ const MyPasswordField = ({ title, ...props }) => {
   );
 };
 
-export { MyTextField, MyCheckbox, MySelect, MyPasswordField };
+const MyDatePicker = ({ title, ...props }) => {
+  return (
+    <>
+      {title && <Typography variant="label">{title}</Typography>}
+      <FormControl fullWidth>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker {...props} />
+        </LocalizationProvider>
+      </FormControl>
+    </>
+  );
+};
+
+export { MyTextField, MyCheckbox, MySelect, MyPasswordField, MyDatePicker };
