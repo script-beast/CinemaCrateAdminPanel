@@ -107,8 +107,8 @@ const typography = {
     fontWeight: 600,
   },
   label: {
-    fontSize: "0.875rem",
-    fontWeight: 600,
+    fontSize: "1rem",
+    fontWeight: 500,
   },
 };
 
@@ -171,13 +171,14 @@ const inputComponent = {
     styleOverrides: {
       root: { borderRadius: "7px" },
       input: { padding: "10px" },
+      multiline: { padding: "1px", "& textarea": { scrollbarWidth: "thin" } },
     },
   },
 };
 
 const buttonComponent = {
   MuiButton: {
-    styleOverrides: { root: { textTransform: "none" } },
+    styleOverrides: { root: { textTransform: "none", borderRadius: 6 } },
     variants: [],
   },
 };

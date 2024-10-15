@@ -9,6 +9,7 @@ import {
   IconButton,
   InputAdornment,
   OutlinedInput,
+  Autocomplete,
 } from "@mui/material";
 
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
@@ -102,4 +103,27 @@ const MyDatePicker = ({ title, ...props }) => {
   );
 };
 
-export { MyTextField, MyCheckbox, MySelect, MyPasswordField, MyDatePicker };
+const MyAutocomplete = ({ title, options = [], ...props }) => {
+  return (
+    <>
+      {title && <Typography variant="label">{title}</Typography>}
+      <FormControl fullWidth>
+        <Autocomplete
+          options={options}
+          getOptionLabel={(option) => option.label}
+          renderInput={(params) => <TextField {...params} />}
+          {...props}
+        />
+      </FormControl>
+    </>
+  );
+};
+
+export {
+  MyTextField,
+  MyCheckbox,
+  MySelect,
+  MyPasswordField,
+  MyDatePicker,
+  MyAutocomplete,
+};

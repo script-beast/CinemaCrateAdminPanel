@@ -12,9 +12,11 @@ import {
 import { useDebounce } from "../../../hooks";
 import { myToast } from "../../../utils";
 import { showSmallLoader, hideSmallLoader } from "../../../helper";
-import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 const Active = () => {
+  const navigate = useNavigate();
+
   const [searchText, setSearchText] = React.useState(null);
   const [data, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
@@ -61,6 +63,7 @@ const Active = () => {
   };
 
   const searchSignal = React.useRef(null);
+
   const loadData = (cus = true) => {
     if (searchText === null && cus) return;
 
@@ -69,11 +72,27 @@ const Active = () => {
     searchSignal.current = new AbortController();
     setLoading(true);
 
-    const {data } = useQuery({
-      queryKey: ["allActiveStandardCrates"],
-      queryFn: () => allActiveStandardCrates(),
-      
-    });
+    allActiveStandardCrates({
+      page: pagination.page,
+      pageSize: pagination.pageSize,
+      search: searchText ?? "",
+      signal: searchSignal.current.signal,
+    })
+      .then((res) => {
+        setData(res.result);
+        setTotal(res.total);
+        setLoading(false);
+      })
+      .catch((err) => {
+        if (!err) return;
+        setLoading(false);
+        myToast.basic(err, "error");
+      })
+      .finally(() => {});
+  };
+
+  const handleDelete = (id) => {
+    console.log("Delete", id);
   };
 
   React.useEffect(() => {
@@ -117,10 +136,18 @@ const Active = () => {
       flex: 1,
       renderCell: (params) => (
         <>
-          <IconButton variant="text" color="primary" size="small">
+          <IconButton
+            variant="text"
+            color="primary"
+            onClick={() => navigate(`/crates/standard/edit/${params.row._id}`)}
+          >
             <AiFillEdit />
           </IconButton>
-          <IconButton variant="text" color="error" size="small">
+          <IconButton
+            variant="text"
+            color="error"
+            onClick={() => handleDelete(params.row._id)}
+          >
             <MdDeleteForever />
           </IconButton>
         </>

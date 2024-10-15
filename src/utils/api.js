@@ -27,7 +27,7 @@ instance.interceptors.response.use(
     // if ()
     // check if cancelled
     if (axios.isCancel(error)) {
-      console.log("Request canceled", error.message);
+      // console.log("Request canceled", error.message);
       return Promise.reject();
     }
     console.log(error);

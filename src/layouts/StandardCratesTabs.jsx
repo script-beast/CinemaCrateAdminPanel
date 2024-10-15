@@ -13,9 +13,19 @@ const StandardCratesTabs = () => {
 
   return (
     <>
-      <Stack spacing={2} mt={2} direction={"row"} className="uppertabs">
-        <NavLink to="/crates/standard/active">Active</NavLink>
-        <NavLink to="/crates/standard/deleted">Deleted</NavLink>
+      <Stack
+        mt={2}
+        direction={"row"}
+        justifyContent={"space-between"}
+        className="uppertabs"
+      >
+        <Stack spacing={2} direction={"row"}>
+          <NavLink to="/crates/standard/active">Active</NavLink>
+          <NavLink to="/crates/standard/deleted">Deleted</NavLink>
+        </Stack>
+        <Stack spacing={2} direction={"row"}>
+          <NavLink to="/crates/standard/add">Add</NavLink>
+        </Stack>
       </Stack>
       <Outlet />
     </>

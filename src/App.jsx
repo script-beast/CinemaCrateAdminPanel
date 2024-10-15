@@ -17,12 +17,17 @@ import "react-toastify/dist/ReactToastify.css";
 
 import ProtectedRoutes from "./components/ProtectedRoutes";
 
-import { Home, Login, StandardActive, StandardDeleted } from "./screens";
+import {
+  Home,
+  Login,
+  StandardActive,
+  StandardDeleted,
+  StandardEdit,
+} from "./screens";
 import { StandardCratesTabs } from "./layouts";
 
 const App = () => {
   const theme = React.useMemo(() => createTheme(themeSettings), []);
-  const [openSmLoader, setOpenSmLoader] = React.useState(false);
 
   return (
     <>
@@ -38,6 +43,8 @@ const App = () => {
               <Route path="standard" element={<StandardCratesTabs />}>
                 <Route path="active" element={<StandardActive />} />
                 <Route path="deleted" element={<StandardDeleted />} />
+                <Route path="add" element={<StandardEdit />} />
+                <Route path="edit/:id" element={<StandardEdit isEdit />} />
               </Route>
               <Route path="limited" element={<div>Limited</div>} />
               <Route path="premium" element={<div>Premium</div>} />

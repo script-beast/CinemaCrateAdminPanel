@@ -58,6 +58,7 @@ const Deleted = () => {
   };
 
   const searchSignal = React.useRef(null);
+
   const loadData = (cus = true) => {
     if (searchText === null && cus) return;
 
@@ -66,26 +67,23 @@ const Deleted = () => {
     searchSignal.current = new AbortController();
     setLoading(true);
 
-    allDeletedStandardCrates(
-      {
-        page: pagination.page + 1,
-        limit: pagination.pageSize,
-        search: searchText,
-      },
-      { signal: searchSignal.current.signal }
-    )
+    allDeletedStandardCrates({
+      page: pagination.page + 1,
+      limit: pagination.pageSize,
+      search: searchText,
+      signal: searchSignal.current.signal,
+    })
       .then((res) => {
         setData(res.result);
         setTotal(res.total);
+        setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
         if (!err) return;
+        setLoading(false);
         myToast.basic(err, "error");
       })
-      .finally(() => {
-        setLoading(false);
-      });
+      .finally(() => {});
   };
 
   React.useEffect(() => {
@@ -140,8 +138,8 @@ const Deleted = () => {
       <Stack spacing={2} mt={2}>
         <Stack direction={"row"}>
           <MyDataSearch
-            searchText={searchText ?? ""}
-            setSearchText={(e) => setSearchText(e.target.value)}
+            value={searchText ?? ""}
+            onChange={(e) => setSearchText(e.target.value)}
             placeholder={"Search for crates"}
           />
         </Stack>
