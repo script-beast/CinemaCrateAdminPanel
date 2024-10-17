@@ -53,6 +53,15 @@ const singleStandardCrate = async (id) => {
   }
 };
 
+const createStandardCrate = async (data) => {
+  try {
+    const json = await api.post(`crates/standard`, data);
+    return json.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const updateStandardCrate = async (id, data) => {
   try {
     const json = await api.put(`crates/standard/${id}`, data);
@@ -71,6 +80,7 @@ const deleteStandardCrate = async (id) => {
 export {
   allActiveStandardCrates,
   singleStandardCrate,
+  createStandardCrate,
   allDeletedStandardCrates,
   updateStandardCrate,
   deleteStandardCrate,

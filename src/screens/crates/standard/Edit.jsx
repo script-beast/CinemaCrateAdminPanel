@@ -3,7 +3,13 @@ import { MyTextField, MySelect } from "../../../components/common";
 import { MyChipsAutocomplete } from "../../../components/templates";
 import { Grid, Button } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
-import { singleStandardCrate } from "../../../services/standardCrates";
+import {
+  singleStandardCrate,
+  updateStandardCrate,
+  createStandardCrate,
+} from "../../../services/standardCrates";
+import { myToast } from "../../../utils";
+import { showSmallLoader, hideSmallLoader } from "../../../helper/loaders";
 
 const Edit = ({ isEdit = false }) => {
   const deaultValues = {
@@ -37,8 +43,50 @@ const Edit = ({ isEdit = false }) => {
     { value: "anime", label: "Anime" },
   ];
 
+  const updateCrate = () => {
+    showSmallLoader();
+    updateStandardCrate(id, values)
+      .then((data) => {
+        navigate("crates/standard");
+      })
+      .catch((error) => {
+        console.error(error);
+        myToast("error", error.message);
+      })
+      .finally(() => {
+        hideSmallLoader();
+      });
+  };
+
+  const createCrate = () => {
+    showSmallLoader();
+    createStandardCrate(values)
+      .then((data) => {
+        navigate("crates/standard");
+      })
+      .catch((error) => {
+        console.error(error);
+        myToast("error", error.message);
+      })
+      .finally(() => {
+        hideSmallLoader();
+      });
+  };
+
   const handleChanges = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = () => {
+    if (!values.name) return myToast("error", "Name is required");
+    if (!values.price) return myToast("error", "Price is required");
+    if (!values.genre) return myToast("error", "Genre is required");
+    if (!values.category) return myToast("error", "Category is required");
+    if (!values.link) return myToast("error", "Link is required");
+    if (!values.trailer) return myToast("error", "Trailer is required");
+    if (!values.plot) return myToast("error", "Plot is required");
+    if (isEdit) updateCrate();
+    else createCrate();
   };
 
   return (
