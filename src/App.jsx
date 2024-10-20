@@ -17,14 +17,21 @@ import "react-toastify/dist/ReactToastify.css";
 
 import ProtectedRoutes from "./components/ProtectedRoutes";
 
+import { Home, Login } from "./screens";
+import { StandardActive, StandardDeleted, StandardEdit } from "./screens";
+
 import {
-  Home,
-  Login,
-  StandardActive,
-  StandardDeleted,
-  StandardEdit,
+  LimitedActive,
+  LimitedDeleted,
+  LimitedEdit,
+  LimitedInactive,
 } from "./screens";
-import { StandardCratesTabs } from "./layouts";
+
+import {
+  StandardCratesTabs,
+  LimitedCratesTabs,
+  PremiumCratesTabs,
+} from "./layouts";
 
 const App = () => {
   const theme = React.useMemo(() => createTheme(themeSettings), []);
@@ -46,7 +53,13 @@ const App = () => {
                 <Route path="add" element={<StandardEdit />} />
                 <Route path="edit/:id" element={<StandardEdit isEdit />} />
               </Route>
-              <Route path="limited" element={<div>Limited</div>} />
+              <Route path="limited" element={<LimitedCratesTabs />}>
+                <Route path="active" element={<LimitedActive />} />
+                <Route path="inactive" element={<LimitedInactive />} />
+                <Route path="deleted" element={<LimitedDeleted />} />
+                <Route path="add" element={<LimitedEdit />} />
+                <Route path="edit/:id" element={<LimitedEdit isEdit />} />
+              </Route>
               <Route path="premium" element={<div>Premium</div>} />
             </Route>
           </Route>

@@ -7,7 +7,7 @@ const MyDataGridServer = ({ ...props }) => {
     <DataGrid
       rows={[]}
       columns={[]}
-      rowsPerPageOptions={[10, 25, 50]}
+      rowsPerPageOptions={[10, 2, 50]}
       getRowId={(row) => row._id}
       slots={{
         pagination: CustomPagination,
@@ -15,9 +15,9 @@ const MyDataGridServer = ({ ...props }) => {
       }}
       paginationMode="server"
       initialState={{
-        pagination: { paginationModel: { pageSize: 1, page: 1 } },
+        pagination: { paginationModel: { pageSize: 10, page: 1 } },
       }}
-      pageSizeOptions={[10, 25, 50]}
+      pageSizeOptions={[10, 2, 50]}
       disableRowSelectionOnClick
       {...props}
     />

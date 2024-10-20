@@ -1,17 +1,23 @@
 import React from "react";
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, Button, IconButton } from "@mui/material";
 
 import { MyDataGridServer, MyDataSearch } from "../../../components/templates";
 import { ViewSanCrates } from "../../../components/ui";
 import {
   allDeletedStandardCrates,
   singleStandardCrate,
+  restoreStandardCrate,
 } from "../../../services";
 import { useDebounce } from "../../../hooks";
 import { myToast } from "../../../utils";
 import { showSmallLoader, hideSmallLoader } from "../../../helper";
+import { AiFillEdit } from "react-icons/ai";
+import { MdRestoreFromTrash } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const Deleted = () => {
+  const navigate = useNavigate();
+
   const [searchText, setSearchText] = React.useState(null);
   const [data, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
@@ -44,6 +50,24 @@ const Deleted = () => {
       })
       .catch((err) => {
         console.error(err);
+        if (!err) return;
+        myToast.basic(err, "error");
+      })
+      .finally(() => {
+        hideSmallLoader();
+      });
+  };
+
+  const handleRestore = (id) => {
+    if (!id) myToast.basic("Invalid Crate ID", "error");
+
+    showSmallLoader();
+    restoreStandardCrate(id)
+      .then((res) => {
+        myToast.basic(res.message, "success");
+        loadData(false);
+      })
+      .catch((err) => {
         if (!err) return;
         myToast.basic(err, "error");
       })
@@ -121,14 +145,27 @@ const Deleted = () => {
       ),
     },
     {
-      field: "summary",
-      headerName: "Summary",
+      field: "action",
+      headerName: "Action",
       minWidth: 150,
       flex: 1,
       renderCell: (params) => (
-        <Button variant="text" size="small">
-          View Summary
-        </Button>
+        <>
+          <IconButton
+            variant="text"
+            color="primary"
+            onClick={() => navigate(`/crates/standard/edit/${params.row._id}`)}
+          >
+            <AiFillEdit />
+          </IconButton>
+          <IconButton
+            variant="text"
+            color="error"
+            onClick={() => handleRestore(params.row._id)}
+          >
+            <MdRestoreFromTrash />
+          </IconButton>
+        </>
       ),
     },
   ];

@@ -7,7 +7,7 @@ const StandardCratesTabs = () => {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    if (location.pathname === "/crates/standard") navigate("active");
+    if (location.pathname === "/crates/limited") navigate("active");
   }, [location.pathname]);
 
   return (
@@ -19,11 +19,12 @@ const StandardCratesTabs = () => {
         className="uppertabs"
       >
         <Stack spacing={2} direction={"row"}>
-          <NavLink to="/crates/standard/active">Active</NavLink>
-          <NavLink to="/crates/standard/deleted">Deleted</NavLink>
+          <NavLink to="/crates/limited/active">Active</NavLink>
+          <NavLink to="/crates/limited/inactive">Inactive</NavLink>
+          <NavLink to="/crates/limited/deleted">Deleted</NavLink>
         </Stack>
         <Stack spacing={2} direction={"row"}>
-          <NavLink to="/crates/standard/add">Add</NavLink>
+          <NavLink to="/crates/limited/add">Add</NavLink>
         </Stack>
       </Stack>
       <Outlet />

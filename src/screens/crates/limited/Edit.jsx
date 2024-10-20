@@ -1,26 +1,36 @@
 import React from "react";
-import { MyTextField, MySelect } from "../../../components/common";
+import {
+  MyTextField,
+  MySelect,
+  MyDatePicker,
+  MyDateTimePicker,
+} from "../../../components/common";
 import { MyChipsAutocomplete } from "../../../components/templates";
 import { Grid, Button } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import {
-  singleStandardCrate,
-  updateStandardCrate,
-  createStandardCrate,
+  singleLimitedCrate,
+  updateLimitedCrate,
+  createLimitedCrate,
 } from "../../../services";
 import { myToast } from "../../../utils";
 import { showSmallLoader, hideSmallLoader } from "../../../helper/loaders";
+import dayjs from "dayjs";
 
 const Edit = ({ isEdit = false }) => {
   const deaultValues = {
     name: "",
-    price: "",
+    price: 0,
     genre: "",
     category: "",
     link: "",
     trailer: "",
     plot: "",
     casts: [],
+    endTime: dayjs().add(1, "day"),
+    discountPrice: 0,
+    occassion: "",
+    tagLine: "",
   };
 
   const [values, setValues] = React.useState({ ...deaultValues });
@@ -31,8 +41,8 @@ const Edit = ({ isEdit = false }) => {
   React.useEffect(() => {
     if (isEdit) {
       showSmallLoader();
-      if (!id) navigate("crates/standard");
-      singleStandardCrate(id)
+      if (!id) navigate("crates/limited");
+      singleLimitedCrate(id)
         .then((data) => {
           setValues({
             name: data.result.name,
@@ -43,11 +53,15 @@ const Edit = ({ isEdit = false }) => {
             trailer: data.result.trailer,
             plot: data.result.plot,
             casts: data.result.casts,
+            endTime: data.result.endTime,
+            discountPrice: data.result.discountPrice,
+            occassion: data.result.occassion,
+            tagLine: data.result.tagLine,
           });
         })
         .catch((error) => {
           myToast.basic(error, "error");
-          navigate("/crates/standard");
+          navigate("/crates/limited");
         })
         .finally(() => {
           hideSmallLoader();
@@ -63,10 +77,15 @@ const Edit = ({ isEdit = false }) => {
 
   const updateCrate = () => {
     showSmallLoader();
-    updateStandardCrate(id, values)
+    updateLimitedCrate(id, {
+      values,
+      price: +values.price,
+      discountPrice: +values.discountPrice,
+      endTime: dayjs(values.endTime).format("YYYY-MM-DD"),
+    })
       .then((data) => {
         myToast.basic(data.msg, "success");
-        navigate("/crates/standard");
+        navigate("/crates/limited");
       })
       .catch((error) => {
         myToast.basic(error, "error");
@@ -79,10 +98,15 @@ const Edit = ({ isEdit = false }) => {
   const createCrate = () => {
     showSmallLoader();
 
-    createStandardCrate({ ...values, price: +values.price })
+    createLimitedCrate({
+      ...values,
+      price: +values.price,
+      discountPrice: +values.discountPrice,
+      endTime: dayjs(values.endTime).format("YYYY-MM-DD"),
+    })
       .then((data) => {
         myToast.basic(data.msg, "success");
-        navigate("/crates/standard");
+        navigate("/crates/limited");
       })
       .catch((error) => {
         console.error(error);
@@ -107,6 +131,12 @@ const Edit = ({ isEdit = false }) => {
     if (!values.plot) return myToast.basic("Plot is required", "error");
     if (!values.casts.length)
       return myToast.basic("Casts is required", "error");
+    if (!values.endTime) return myToast.basic("End Time is required", "error");
+    if (!values.discountPrice)
+      return myToast.basic("Discount Price is required", "error");
+    if (!values.occassion)
+      return myToast.basic("Occassion is required", "error");
+    if (!values.tagLine) return myToast.basic("Tag Line is required", "error");
 
     if (isEdit) updateCrate();
     else createCrate();
@@ -114,6 +144,13 @@ const Edit = ({ isEdit = false }) => {
 
   return (
     <Grid container spacing={2} mt={2}>
+      <Grid item xs={12} md={6}>
+        <MyDateTimePicker
+          title={"Name"}
+          name={"name"}
+          onChange={(e) => console.log(new Date(e))}
+        />
+      </Grid>
       <Grid item xs={12} md={6}>
         <MyTextField
           title={"Name"}
@@ -124,9 +161,44 @@ const Edit = ({ isEdit = false }) => {
       </Grid>
       <Grid item xs={12} md={6}>
         <MyTextField
+          title={"Occassion"}
+          name={"occassion"}
+          value={values.occassion}
+          onChange={handleChanges}
+        />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <MyTextField
+          title={"Tag Line"}
+          name={"tagLine"}
+          value={values.tagLine}
+          onChange={handleChanges}
+        />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <MyDatePicker
+          title={"End Time"}
+          name={"endTime"}
+          format={"DD MMM, YYYY"}
+          minDate={dayjs().add(1, "day")}
+          value={dayjs(values.endTime)}
+          onChange={(e) => setValues({ ...values, endTime: e })}
+        />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <MyTextField
           title={"Price"}
           name={"price"}
           value={values.price}
+          onChange={handleChanges}
+          type={"number"}
+        />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <MyTextField
+          title={"Discount Price"}
+          name={"discountPrice"}
+          value={values.discountPrice}
           onChange={handleChanges}
           type={"number"}
         />

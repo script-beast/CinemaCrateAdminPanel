@@ -27,4 +27,4 @@ const ConfirmDialog = ({
   );
 };
 
-export default ConfirmDialog;
+export { ConfirmDialog };

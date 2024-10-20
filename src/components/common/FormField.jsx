@@ -12,7 +12,11 @@ import {
   Autocomplete,
 } from "@mui/material";
 
-import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
+import {
+  LocalizationProvider,
+  DatePicker,
+  DateTimePicker,
+} from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 import { PiEye, PiEyeClosed } from "react-icons/pi";
@@ -119,6 +123,19 @@ const MyAutocomplete = ({ title, options = [], ...props }) => {
   );
 };
 
+const MyDateTimePicker = ({ title, ...props }) => {
+  return (
+    <>
+      {title && <Typography variant="label">{title}</Typography>}
+      <FormControl fullWidth>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DateTimePicker {...props} />
+        </LocalizationProvider>
+      </FormControl>
+    </>
+  );
+};
+
 export {
   MyTextField,
   MyCheckbox,
@@ -126,4 +143,5 @@ export {
   MyPasswordField,
   MyDatePicker,
   MyAutocomplete,
+  MyDateTimePicker,
 };

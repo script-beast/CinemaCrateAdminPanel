@@ -14,7 +14,7 @@ const promise = (
   promise,
   pendingMessage = "Loading...",
   successMessage = "Success",
-  errorMessage = "Error"
+  errorMessage = "Error",
 ) => {
   toast.promise(promise, {
     pending: pendingMessage,

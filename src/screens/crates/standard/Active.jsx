@@ -8,6 +8,7 @@ import { ViewSanCrates } from "../../../components/ui";
 import {
   allActiveStandardCrates,
   singleStandardCrate,
+  deleteStandardCrate,
 } from "../../../services";
 import { useDebounce } from "../../../hooks";
 import { myToast } from "../../../utils";
@@ -73,8 +74,8 @@ const Active = () => {
     setLoading(true);
 
     allActiveStandardCrates({
-      page: pagination.page,
-      pageSize: pagination.pageSize,
+      page: pagination.page + 1,
+      limit: pagination.pageSize,
       search: searchText ?? "",
       signal: searchSignal.current.signal,
     })
@@ -92,7 +93,21 @@ const Active = () => {
   };
 
   const handleDelete = (id) => {
-    console.log("Delete", id);
+    if (!id) return myToast.basic("Invalid Crate ID", "error");
+
+    showSmallLoader();
+    deleteStandardCrate(id)
+      .then((res) => {
+        myToast.basic(res.msg, "success");
+        loadData(false);
+      })
+      .catch((err) => {
+        if (!err) return;
+        myToast.basic(err, "error");
+      })
+      .finally(() => {
+        hideSmallLoader();
+      });
   };
 
   React.useEffect(() => {

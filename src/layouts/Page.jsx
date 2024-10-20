@@ -23,7 +23,11 @@ const Page = () => {
         }}
       >
         <Header />
-        <Container variant="main" maxWidth="lg" sx={{ minHeight: "90vh" }}>
+        <Container
+          variant="main"
+          maxWidth="lg"
+          sx={{ minHeight: "90vh", pb: 2 }}
+        >
           <Outlet />
         </Container>
         <Footer />
